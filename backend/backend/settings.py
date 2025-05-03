@@ -1,4 +1,9 @@
 from pathlib import Path
+from datetime import timedelta
+from dotenv import load_dotenv
+import os 
+
+load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -12,6 +17,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+CORS_ALLOW_ALL_ORIGINS = True
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -22,22 +29,18 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'rest_framework',
-    'cors_headers',
-
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.google',
+    'rest_framework_simplejwt',
+    'corsheaders',
 
     'user',
 ]
 
+'''
+CorsMiddleware should be placed as high as possible, especially before any middleware 
+that can generate responses such as Django’s CommonMiddleware or Whitenoise’s WhiteNoiseMiddleware. 
+If it is not before, it will not be able to add the CORS headers to these responses.
+'''
 MIDDLEWARE = [
-    '''
-    CorsMiddleware should be placed as high as possible, especially before any middleware 
-    that can generate responses such as Django’s CommonMiddleware or Whitenoise’s WhiteNoiseMiddleware. 
-    If it is not before, it will not be able to add the CORS headers to these responses.
-    '''
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -46,8 +49,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-
-    "allauth.account.middleware.AccountMiddleware",
 ]
 
 ROOT_URLCONF = 'backend.urls'
@@ -118,13 +119,19 @@ AUTH_USER_MODEL = 'user.User'
 
 #Rest Framework Related
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-    ]
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
 }
 
-#All Auth Related
-AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend',
-]
+
+#JWT Related
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
+}
+
+#Google Auth
+GOOGLE_CLIENT_ID = os.getenv('GOOGLE_CLIENT_ID')
+GOOGLE_CLIENT_SECRET = os.getenv('GOOGLE_CLIENT_SECRET')
+GOOGLE_REDIRECT_URI = os.getenv('GOOGLE_REDIRECT_URI')
+FRONTEND_URL = os.getenv('FRONTEND_URL')
