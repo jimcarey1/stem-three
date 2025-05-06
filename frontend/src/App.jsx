@@ -1,8 +1,12 @@
 import { useEffect, useState } from 'react';
 import GoogleBranding from './helpers/GoogleBranding';
+
+import {checkAuthStatus, updateTokens} from './utils/Auth';
+
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+
   const handleLogin = async ()=>{
     const response = await fetch('http://localhost:8000/auth/google/initiate')
     const {auth_url} = await response.json()
@@ -11,25 +15,21 @@ function App() {
   }
 
   useEffect(() => {
-    // Check authentication status via backend
     const checkAuth = async () => {
-      try {
-        const res = await fetch('http://localhost:8000/auth/me/', {
-          credentials: 'include', // important for HttpOnly cookies
-        });
-
-        if (res.ok) {
+      const authStatus = await checkAuthStatus();
+      if(authStatus){
+        setIsAuthenticated(true);
+        setLoading(false);
+      }else{
+        const updateTokenResponse = await updateTokens()
+        if(updateTokenResponse){
           setIsAuthenticated(true);
-        } else {
-          setIsAuthenticated(false);
+        }else{
+          setIsAuthenticated(false)
         }
-      } catch (err) {
-        setIsAuthenticated(false);
-      } finally {
         setLoading(false);
       }
     };
-
     checkAuth();
   }, []);
   if (loading) return <p>Loading...</p>;

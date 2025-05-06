@@ -25,5 +25,5 @@ urlpatterns = [
     path('auth/google/initiate/', GoogleInitiateAPIView.as_view(), name='google-init'),
     path('accounts/google/login/callback/',  GoogleCallbackAPIView.as_view(), name='google-callback'),
     path('auth/me/', get_me, name='login_check_url'),
-    path('/token/refresh/', TokenRefreshView.as_view(), name='token_refresh_url'),
+    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh_url'),
 ]
