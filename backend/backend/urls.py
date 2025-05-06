@@ -17,11 +17,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from user.views import GoogleInitiateAPIView, GoogleCallbackAPIView
+from user.views import GoogleInitiateAPIView, GoogleCallbackAPIView, get_me, TokenRefreshView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
     path('auth/google/initiate/', GoogleInitiateAPIView.as_view(), name='google-init'),
     path('accounts/google/login/callback/',  GoogleCallbackAPIView.as_view(), name='google-callback'),
+    path('auth/me/', get_me, name='login_check_url'),
+    path('/token/refresh/', TokenRefreshView.as_view(), name='token_refresh_url'),
 ]
