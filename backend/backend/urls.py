@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 
 from user.views import GoogleInitiateAPIView, GoogleCallbackAPIView, get_me, TokenRefreshView
+from user.views_customer import CustomerAPIView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -26,4 +27,5 @@ urlpatterns = [
     path('accounts/google/login/callback/',  GoogleCallbackAPIView.as_view(), name='google-callback'),
     path('auth/me/', get_me, name='login_check_url'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh_url'),
+    path('customers/', CustomerAPIView.as_view(), name='list_create_customers_url'),
 ]
