@@ -4,8 +4,7 @@ export const checkAuthStatus = async () =>{
         method: 'GET',
         credentials: 'include',
     })
-    if(resp.ok) return true;
-    return false;
+    return resp.ok;
 }
 
 export const updateTokens = async () =>{
@@ -13,11 +12,11 @@ export const updateTokens = async () =>{
         method: 'POST',
         credentials: 'include',
     })
-    return resp
+    return resp.ok;
 }
 
 export const handleLogin = async ()=>{
-    const response = await fetch('http://localhost:8000/auth/google/initiate')
-    const {auth_url} = await response.json()
-    window.location.href = auth_url
+    const response = await fetch('http://localhost:8000/auth/google/initiate');
+    const {auth_url} = await response.json();
+    window.location.href = auth_url;
 }

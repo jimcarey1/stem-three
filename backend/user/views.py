@@ -50,19 +50,24 @@ class GoogleCallbackAPIView(APIView):
         refresh_token = token_data['refresh_token']
         email = info.get('email')
 
-        user, _ = User.objects.get_or_create(username=email, defaults={
+        user, user_exists = User.objects.get_or_create(username=email, defaults={
             'email': email,
             'first_name': info.get('given_name', ''),
             'last_name':  info.get('family_name', ''),
             'refresh_token':refresh_token,
         })
 
+        #If the user already exists in the database, we are updating his refresh_token
+        if user_exists:
+            user.refresh_token = refresh_token
+            user.save()
+
         refresh = RefreshToken.for_user(user)
         jwt_token = str(refresh.access_token)
 
         response = redirect(f"{settings.FRONTEND_URL}/")
-        response.set_cookie("access_token", jwt_token, httponly=True, secure=False, samesite='Lax')
-        response.set_cookie(key="refresh_token", value=str(refresh), httponly=False, secure=True, samesite='Lax')
+        response.set_cookie(key="access_token", value=jwt_token, max_age=2592000, httponly=True, secure=False, samesite='Lax')
+        response.set_cookie(key="refresh_token", value=str(refresh), max_age=2592000, httponly=True, secure=False, samesite='Lax')
         return response
     
 @api_view(['GET'])
@@ -82,8 +87,8 @@ class TokenRefreshView(APIView):
             refresh = RefreshToken(refresh_token)
             new_access_token = str(refresh.access_token)
             response = Response(status=status.HTTP_200_OK)
-            response.set_cookie("access_token", new_access_token, httponly=True, secure=False, samesite='Lax')
-            response.set_cookie(key="refresh_token", value=str(refresh), httponly=True, secure=False, samesite='Lax')
+            response.set_cookie(key="access_token", value=new_access_token, max_age=2592000, httponly=True, secure=False, samesite='Lax')
+            response.set_cookie(key="refresh_token", value=str(refresh), max_age=2592000, httponly=True, secure=False, samesite='Lax')
             return response
         except Exception as e:
             return Response({'detail': 'Invalid refresh token.'}, status=status.HTTP_401_UNAUTHORIZED)

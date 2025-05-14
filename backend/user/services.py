@@ -7,6 +7,7 @@ from typing import Dict, Any
 
 _GOOGLE_TOKEN_URL = "https://oauth2.googleapis.com/token"
 _GOOGLE_USERINFO_URL = "https://www.googleapis.com/oauth2/v2/userinfo"
+_GOOGLE_REFRESH_TOKEN_URL = 'https://www.googleapis.com/o/oauth2/token'
 
 def get_google_tokens(code: str):
     '''
