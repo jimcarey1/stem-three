@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 
 import GoogleBranding from './helpers/GoogleBranding';
-import Navbar from './components/Navbar';
+import Home from './components/Home';
 import {checkAuthStatus, updateTokens, handleLogin} from './utils/Auth';
 
 function App() {
@@ -31,7 +31,7 @@ function App() {
 
   return (
     <>
-    <Navbar />
+    <Home />
     </>
   )
 }
