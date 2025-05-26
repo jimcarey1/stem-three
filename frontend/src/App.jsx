@@ -9,6 +9,7 @@ import {checkAuthStatus, updateTokens, handleLogin} from './utils/Auth';
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
+  window.VIDEOJS_NO_DYNAMIC_STYLE = true;
 
   // useEffect(() => {
   //   const checkAuth = async () => {
@@ -36,7 +37,7 @@ function App() {
     autoplay: true,
     controls: true,
     responsive: true,
-    aspectRatio:'16:9',
+    aspectRatio:'9:16',
     playbackRates:[0.25, 0.5, 0.75, 1],
     sources: [{
       src: '/testing/testing.mp4',

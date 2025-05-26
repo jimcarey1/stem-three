@@ -26,6 +26,7 @@ export const VideoJS = (props) => {
     // on prop change, for example:
     } else {
       const player = playerRef.current;
+      player.addClass('vjs-matrix');
 
       player.autoplay(options.autoplay);
       player.src(options.sources);
