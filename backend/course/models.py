@@ -35,6 +35,8 @@ class Video(models.Model):
 class Enrollment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='enrollments')
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='courses')
+    completed = models.BooleanField(default=False)
+    grades = models.PositiveSmallIntegerField(default=0)
     enrolled_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
