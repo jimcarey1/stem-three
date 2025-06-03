@@ -1,10 +1,20 @@
 
 export const checkAuthStatus = async () =>{
-    const resp = await fetch('http://localhost:8000/auth/me/',{
+    try{
+        const resp = await fetch('http://localhost:8000/auth/me/',{
         method: 'GET',
         credentials: 'include',
-    })
-    return resp.ok;
+        })
+        const responseData = await resp.json();
+        if(resp.ok){
+            return responseData.user
+        }else{
+            return null;
+        }
+    }catch(error){
+        console.log(error)
+        return null
+    }
 }
 
 export const updateTokens = async () =>{

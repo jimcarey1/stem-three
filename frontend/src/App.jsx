@@ -1,41 +1,31 @@
 import { useEffect, useState, useRef } from 'react';
+import {Routes, Route} from 'react-router-dom';
 
 
 import GoogleBranding from './helpers/GoogleBranding';
+import {PrivateRoutes, StaffRoutes} from './utils/PrivateRoutes';
 import Home from './components/Home';
-import VideoJS from './components/VideoJS';
-import {checkAuthStatus, updateTokens, handleLogin} from './utils/Auth';
-import VideoUpload from './components/VideoUpload'
+import { checkAuthStatus, updateTokens, handleLogin } from './utils/Auth';
+import { AddCourse } from './components/staff/AddCourse';
+import { useAuth } from './context/AuthContext';
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [loading, setLoading] = useState(true);
-  window.VIDEOJS_NO_DYNAMIC_STYLE = true;
-
-  // useEffect(() => {
-  //   const checkAuth = async () => {
-  //     const authStatus = await checkAuthStatus();
-  //     if(authStatus){
-  //       setIsAuthenticated(true);
-  //       setLoading(false);
-  //     }else{
-  //       const updateTokenResponse = await updateTokens()
-  //       if(updateTokenResponse){
-  //         setIsAuthenticated(true);
-  //       }else{
-  //         setIsAuthenticated(false)
-  //       }
-  //       setLoading(false);
-  //     }
-  //   };
-  //   checkAuth();
-  // }, []);
-  // if (loading) return <p>Loading...</p>;
+  const {user, loading} = useAuth();
+  if (loading) return <p>Loading...</p>;
 
   return (
     <>
-    {/* <Home /> */}
-    <VideoUpload />
+    {!user && <GoogleBranding handleLogin={handleLogin} />}
+    <Routes>
+      <Route path='/' element = {<Home />} />
+      <Route path='courses/new' 
+      element={
+        <StaffRoutes>
+          <AddCourse />
+        </StaffRoutes>
+      } 
+      />
+    </Routes>
     </>
   )
 }

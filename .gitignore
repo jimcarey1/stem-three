@@ -6,4 +6,4 @@ node_modules/
 
 *.mp4
 
-s3_video_transcode/
+*.pem

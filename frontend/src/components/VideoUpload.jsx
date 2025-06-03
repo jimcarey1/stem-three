@@ -54,7 +54,7 @@ const VideoUpload = ()=> {
 
   return (
     <div>
-      <input type="file" accept="video/*" onChange={handleFileChange} ref={fileInput}/>
+      <input type="file" accept="video/*" onChange={handleFileChange} ref={fileInputRef}/>
       <button onClick={uploadVideo} disabled={uploading}>
         {uploading ? 'Uploading...' : 'Upload Video'}
       </button>

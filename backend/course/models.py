@@ -3,12 +3,19 @@ from django.core.exceptions import ValidationError
 
 from user.models import User
 
-# Create your models here.
+# # Create your models here.
+# class Categories(models.Model):
+#     name = models.CharField(max_length=30)
+#     created_at = models.DateTimeField(auto_now_add=True)
+#     updated_at = models.DateTimeField(auto_now=True)
+
+
 class Course(models.Model):
     title = models.CharField(max_length=100, unique=True)
     description = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    creator = models.ForeignKey(User, null=True, related_name='owner', on_delete=models.SET_NULL)
     enrolled_users = models.ManyToManyField(to=User, through='Enrollment', related_name='enrolled_courses')
 
     class Meta:

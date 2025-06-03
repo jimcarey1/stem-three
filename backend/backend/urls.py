@@ -26,5 +26,5 @@ urlpatterns = [
     path('accounts/google/login/callback/',  GoogleCallbackAPIView.as_view(), name='google-callback'),
     path('auth/me/', get_me, name='login_check_url'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh_url'),
-    path('', include('course.urls'))
+    path('courses/', include('course.urls'))
 ]
