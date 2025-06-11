@@ -14,6 +14,8 @@ from .services import get_google_tokens, get_google_userinfo
 from .serializers import UserSerializer
 from django.contrib.auth import get_user_model
 
+import jwt
+
 User = get_user_model()
 
 class GoogleInitiateAPIView(APIView):
@@ -78,8 +80,24 @@ class GoogleCallbackAPIView(APIView):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_me(request:Request):
-    user_serializer = UserSerializer(instance = request.user)
-    return Response({'user':user_serializer.data})
+    if request.user and request.user.is_authenticated:
+        user_serializer = UserSerializer(instance = request.user)
+        return Response({'user':user_serializer.data})
+    else:
+        refresh_token = request.COOKIES.get('refresh_token')
+        if refresh_token is None:
+            return Response({'detail': 'Refresh token not provided'}, status=status.HTTP_401_UNAUTHORIZED)
+        try:
+            refresh = RefreshToken(refresh_token)
+            new_access_token = str(refresh.access_token)
+            user_payload = jwt.decode(new_access_token, key=settings.SECRET_KEY, options={'verify_exp':False})
+            print(user_payload)
+            response = Response(status=status.HTTP_200_OK)
+            response.set_cookie(key='access_token', value=new_access_token, max_age=2592000, httponly=True, secure=False, samesite='Lax')
+            return response
+        except Exception as e:
+            return Response({'detail':'Invalid refresh token.'}, status=status.HTTP_401_UNAUTHORIZED)
+
 
 class TokenRefreshView(APIView):
     permission_classes = [AllowAny]
@@ -97,10 +115,3 @@ class TokenRefreshView(APIView):
             return response
         except Exception as e:
             return Response({'detail': 'Invalid refresh token.'}, status=status.HTTP_401_UNAUTHORIZED)
-        
-@api_view(['POST'])
-@permission_classes([IsAuthenticated])
-def logout(request:Request):
-    response = Response()
-    response.delete_cookie('access_token')
-    response.delete_cookie('refresh_token')

@@ -1,6 +1,6 @@
 // AuthContext.js
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { checkAuthStatus } from "../utils/Auth";
+import { checkAuthStatus, updateTokens } from "../utils/Auth";
 
 const AuthContext = createContext();
 
@@ -12,7 +12,6 @@ export function AuthProvider({ children }) {
     async function fetchUser() {
       try {
         const userData = await checkAuthStatus();
-        console.log(userData);
         if(userData){
           setUser(userData)
         }

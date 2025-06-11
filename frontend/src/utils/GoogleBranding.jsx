@@ -1,6 +1,6 @@
 import React from 'react';
 
-const GoogleBranding = ({handleLogin}) => {
+export const GoogleBranding = ({handleLogin}) => {
   return (
     <button className="gsi-material-button" onClick={handleLogin}>
       <div className="gsi-material-button-state"></div>
@@ -31,11 +31,7 @@ const GoogleBranding = ({handleLogin}) => {
             <path fill="none" d="M0 0h48v48H0z"></path>
           </svg>
         </div>
-        <span className="gsi-material-button-contents">Sign in with Google</span>
-        <span style={{ display: 'none' }}>Sign in with Google</span>
       </div>
     </button>
   );
 };
-
-export default GoogleBranding;

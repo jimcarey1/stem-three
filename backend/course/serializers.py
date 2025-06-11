@@ -4,10 +4,10 @@ from .models import Course, Video, Enrollment
 from user.serializers import UserSerializer
 
 class CourseSerializer(serializers.ModelSerializer):
-    creator = UserSerializer(read_only=True)
+    #creator = UserSerializer(read_only=True)
     class Meta:
         model = Course 
-        fields = ['id', 'title', 'description', 'creator']
+        fields = ['id', 'title', 'description']
 
 class VideoSerializer(serializers.ModelSerializer):
     class Meta:

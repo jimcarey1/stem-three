@@ -20,3 +20,24 @@ export const createCourse = async (data) => {
         return null;
     }
 }
+
+export const getStaffCourse = async(userId) => {
+    try{
+        const response = await fetch(`http://localhost:8000/courses/mycourses/${userId}`,{
+            method: 'GET',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        const data = await response.json()
+        if(response.ok){
+            return data
+        }else{
+            return null;
+        }
+    }catch(error){
+        console.log(error);
+        return null;
+    }
+}

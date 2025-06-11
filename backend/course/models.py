@@ -15,7 +15,7 @@ class Course(models.Model):
     description = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    creator = models.ForeignKey(User, null=True, related_name='owner', on_delete=models.SET_NULL)
+    creator = models.ForeignKey(User, null=True, related_name='courses', on_delete=models.SET_NULL)
     enrolled_users = models.ManyToManyField(to=User, through='Enrollment', related_name='enrolled_courses')
 
     class Meta:

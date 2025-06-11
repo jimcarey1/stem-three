@@ -5,13 +5,13 @@ export function PrivateRoutes({ children }) {
   const { user, loading } = useAuth();
   if (loading) return <div>Loading...</div>;
 
-  return user ? children : <Navigate to="" />;
+  return user ? children : <Navigate to="/" />;
 }
 
 export function StaffRoutes({children}) {
   const {user, loading} = useAuth();
   if (loading) return <div>Loading...</div>
 
-  return user.is_staff ? children : <Navigate to=''/>;
+  return user?.is_staff ? children : <Navigate to='/'/>;
 
 }
