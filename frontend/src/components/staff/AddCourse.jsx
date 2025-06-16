@@ -69,7 +69,7 @@ export const AddCourse = () => {
                 />
             </div>
 
-            <button className="bg-blue-800 p-[5px] text-white hover:bg-blue-500" type="submit" onClick={(event)=>handleSubmit(event)}>Add Course</button>
+            <button className="bg-blue-800 p-[5px] text-white hover:bg-blue-500" type="button" onClick={(event)=>handleSubmit(event)}>Add Course</button>
         </form>
         </>
     )

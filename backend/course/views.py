@@ -9,7 +9,8 @@ from django.shortcuts import get_object_or_404
 from django.conf import settings
 
 from utils.s3_presigned_url import generate_presigned_url
-from .serializers import CourseSerializer
+from .serializers import CourseSerializer, CourseChapterSerializer
+from .models import Course
 from user.models import User
 
 @api_view(['POST'])
@@ -43,8 +44,41 @@ def get_courses(request:Request, pk):
     courses = user.courses.all()
     try:
         course_serializer = CourseSerializer(courses, many=True)
-        print(course_serializer.data)
         return Response(data=course_serializer.data, status=status.HTTP_200_OK)
     except Exception as error:
-        print(error)
         return Response(course_serializer.errors, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+@api_view(['POST', 'GET'])
+@permission_classes([IsAuthenticated, IsAdminUser])
+def create_chapter(request:Request, course_id):
+    course = get_object_or_404(Course, pk=course_id)
+    if request.method == 'POST':
+        try:
+            chapter_serializer = CourseChapterSerializer(data = request.data)
+            if chapter_serializer.is_valid():
+                chapter_serializer.save(course=course)
+                return Response(chapter_serializer.data, status=status.HTTP_201_CREATED)
+            return Response(chapter_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as exc:
+            print(exc)
+            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    else:
+        course_chapters = Course.chapters.all()
+        try:
+            chapter_serializer = CourseChapterSerializer(course_chapters, many=True)
+            return Response(chapter_serializer.data, status=status.HTTP_200_OK)
+        except Exception as exc:
+            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated, IsAdminUser]) 
+def list_chapters(request:Request, course_id):
+    course = get_object_or_404(Course, pk=course_id)
+    course_chapters = Course.chapters.all()
+    try:
+        chapter_serializer = CourseChapterSerializer(course_chapters, many=True)
+        return Response(chapter_serializer.data, status=status.HTTP_200_OK)
+    except Exception as exc:
+        return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
