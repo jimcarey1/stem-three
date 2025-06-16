@@ -3,10 +3,7 @@ export const createCourse = async (data) => {
         const response = await fetch('http://localhost:8000/courses/new/', {
         method: 'POST',
         credentials: 'include',
-        headers:{
-            'Content-Type':'application/json',
-        },
-        body : JSON.stringify(data)
+        body : data
         })
         const responseData = await response.json();
         if(response.ok){

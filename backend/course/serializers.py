@@ -7,7 +7,7 @@ class CourseSerializer(serializers.ModelSerializer):
     #creator = UserSerializer(read_only=True)
     class Meta:
         model = Course 
-        fields = ['id', 'title', 'description']
+        fields = ['id', 'title', 'description', 'image']
 
 class VideoSerializer(serializers.ModelSerializer):
     class Meta:

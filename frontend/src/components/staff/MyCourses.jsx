@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 
 import { getStaffCourse } from "../../services/courses"
 import { useAuth } from "../../context/AuthContext";
+import { Course } from "../Course";
 
 export const MyCourses = () =>{
     const [courses, setCourses] = useState([]);
@@ -14,13 +15,12 @@ export const MyCourses = () =>{
             }
         }
         myCourses();
-    }, [])
+    }, [user?.id])
     return(
-        <>
-        <h1>MyCourses</h1>
-        {courses.map((course)=>(
-            <p>{course.title}</p>
-        ))}
-        </>
+        <div className="grid grid-cols-3">
+            {courses.map((course)=>(
+                <Course key={course.id} course={course}/>
+            ))}
+        </div>
     )
 }

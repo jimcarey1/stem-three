@@ -1,8 +1,9 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.request import Request
-from rest_framework.decorators import permission_classes
+from rest_framework.decorators import permission_classes, parser_classes
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework import status
 from django.shortcuts import get_object_or_404
 from django.conf import settings
@@ -26,9 +27,10 @@ def get_presigned_url(request:Request):
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated, IsAdminUser])
+@parser_classes([FormParser, MultiPartParser])
 def create_course(request:Request):
-    print(request.data)
     serializer = CourseSerializer(data=request.data)
+    image = request.FILES['image']
     if serializer.is_valid():
         serializer.save(creator = request.user)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
