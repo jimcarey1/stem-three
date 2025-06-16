@@ -38,30 +38,38 @@ export const AddCourse = () => {
 
     return (
         <>
-        <form method='post' encType="multipart/form-data">
-            <label>Title:</label>
-            <input type='text'
-            name="title" 
-            value={data.title}
-            onChange={handleChange}
-            placeholder='Course Title' />
+        <form className='flex flex-col gap-6 justify-center items-center' method='post' encType="multipart/form-data">
+            <h1 className="text-3xl font-bold text-green-900">Add a Course</h1>
+
+            <div className="flex flex-col">
+                <label className="text-2xl">Title:</label>
+                <input className='w-[400px] h-[40px] bg-white border-[1px] border-black rounded-4xl px-10' type='text'
+                name="title" 
+                value={data.title}
+                onChange={handleChange}
+                placeholder='Course Title' />
+            </div>
             
-            <label>Description:</label>
-            <textarea 
-            name="description"
-            value={data.description}
-            onChange={handleChange}
-            placeholder='short description about your course.'/>
+            <div className="flex flex-col">
+                <label className="text-2xl">Description:</label>
+                <textarea className="w-[800px] h-[100px] bg-white border-[1px] border-black rounded-4xl px-10"
+                name="description"
+                value={data.description}
+                onChange={handleChange}
+                placeholder='short description about your course.'/>
+            </div>
 
-            <label>Thumbnail</label>
-            <input 
-            type="file" 
-            name="image"
-            accept="image/jpeg,image/png,image/gif,image/jpg"
-            onChange={handleImageChange}
-            />
+            <div className="flex flex-col">
+                <label className="text-2xl">Thumbnail</label>
+                <input 
+                type="file" 
+                name="image"
+                accept="image/jpeg,image/png,image/gif,image/jpg"
+                onChange={handleImageChange}
+                />
+            </div>
 
-            <button type="submit" onClick={(event)=>handleSubmit(event)}>Add Course</button>
+            <button className="bg-blue-800 p-[5px] text-white hover:bg-blue-500" type="submit" onClick={(event)=>handleSubmit(event)}>Add Course</button>
         </form>
         </>
     )

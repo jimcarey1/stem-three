@@ -1,14 +1,13 @@
+import { useLocation } from "react-router-dom"
 
-export const Course = ({course}) =>{
-    console.log(`http://localhost:8000/media/${course.image}`)
+export const Course = () =>{
+    const location = useLocation();
+    const course = location.state
     return(
-        <div className="flex flex-col gap-0">
-            <div className="">
-                <img src={`http://localhost:8000/${course.image}`} alt={course.title} width={100} height={100} />
-            </div>
-            <div className="">
-                <h2>{course.title}</h2>
-            </div>
+        <div>
+            <img className="w-[200px] h-[200px]" src={`http://localhost:8000/${course.image}`} alt={course.title} />
+            <h1>{course.title}</h1>
+            <p>{course.description}</p>
         </div>
     )
 }

@@ -1,3 +1,4 @@
+import { Outlet } from 'react-router-dom';
 import { StaffRoutes } from '../utils/PrivateRoutes';
 import Navbar from './Navbar';
 import { StaffDashboard } from './staff/StaffDashboard';
@@ -7,7 +8,7 @@ const Home = () => {
     <>
         <Navbar />
         <StaffRoutes>
-          <StaffDashboard />
+          <StaffDashboard Children={<Outlet />} />
         </StaffRoutes>
     </>
   )
