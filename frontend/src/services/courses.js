@@ -78,3 +78,26 @@ export const createCourseChapter = async(formData, courseId) => {
         return null
     }
 }
+
+export const getCourseChapter = async(courseId, chapterId) => {
+    try{
+        const response = await fetch(`http://localhost:8000/courses/chapters/${courseId}/chapter/${chapterId}/`,{
+            method: 'GET',
+            credentials: 'include',
+            headers:{
+                'Content-Type': 'application/json',
+            }
+        })
+        const responseData = await response.json()
+        if(response.ok){
+            console.log(responseData)
+            return responseData
+        }else{
+            console.log(responseData)
+            return null
+        }
+    }catch(error){
+        console.log(error)
+        return null
+    }
+}

@@ -12,7 +12,7 @@ const VideoUpload = ()=> {
 
   const uploadVideo = async () => {
     if (!fileInputRef.current || !fileInputRef.current.files[0]) return;
-    const video = fileInputRef.current.files[0];
+    video = fileInputRef.current.files[0];
 
     try {
       setUploading(true);

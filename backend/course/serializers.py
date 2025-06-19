@@ -1,10 +1,14 @@
 from rest_framework import serializers
 
 from .models import Course, Video, Enrollment, CourseChapter
-from user.serializers import UserSerializer
+
+class CourseChapterSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CourseChapter
+        fields = ['id', 'title', 'description']
 
 class CourseSerializer(serializers.ModelSerializer):
-    #creator = UserSerializer(read_only=True)
+    chapters = CourseChapterSerializer(read_only=True, many=True)
     class Meta:
         model = Course 
         fields = ['id', 'title', 'description', 'image', 'chapters']
@@ -18,8 +22,3 @@ class EnrollmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Enrollment
         fields = ['all']
-
-class CourseChapterSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = CourseChapter
-        fields = ['id', 'title', 'description']

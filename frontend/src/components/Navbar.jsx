@@ -6,7 +6,7 @@ import { handleLogin } from '../utils/Auth';
 const Navbar = () => {
     const {user} = useAuth();
   return (
-    <div className='flex justify-between w-full h-15 bg-green-300 px-5 text-white justify-items-center items-center'>
+    <div className='flex flex-1 justify-between w-full h-15 bg-green-300 px-5 text-white justify-items-center items-center'>
         <div className='flex gap-x-1 justify-items-center items-center hover:text-gray-300 cursor-pointer'>
             <img className='w-12 h-12 rounded-full' src='/images/logo.jpg' alt='logo' />
             <p className='text-2xl font-bold'>ORG NAME</p>

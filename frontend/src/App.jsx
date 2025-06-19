@@ -6,6 +6,7 @@ import { AddCourse } from './components/staff/AddCourse';
 import { useAuth } from './context/AuthContext';
 import { MyCourses } from './components/staff/MyCourses';
 import {Course} from './components/Course'
+import { CourseChapter } from './components/staff/CourseChapter';
 
 function App() {
   const {user, loading} = useAuth();
@@ -32,7 +33,13 @@ function App() {
           <StaffRoutes>
             <AddCourse />
           </StaffRoutes>
-        } 
+        }
+        />
+        <Route path='/:courseId/chapters/:chapterId' element={
+          <StaffRoutes>
+            <CourseChapter />
+          </StaffRoutes>
+        }
         />
       </Route>
     </Routes>

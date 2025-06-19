@@ -10,7 +10,7 @@ from django.conf import settings
 
 from utils.s3_presigned_url import generate_presigned_url
 from .serializers import CourseSerializer, CourseChapterSerializer
-from .models import Course
+from .models import Course, CourseChapter
 from user.models import User
 
 @api_view(['POST'])
@@ -46,7 +46,8 @@ def get_courses(request:Request, pk):
         course_serializer = CourseSerializer(courses, many=True)
         return Response(data=course_serializer.data, status=status.HTTP_200_OK)
     except Exception as error:
-        return Response(course_serializer.errors, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        print(error)
+        return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 @api_view(['POST', 'GET'])
 @permission_classes([IsAuthenticated, IsAdminUser])
@@ -82,3 +83,13 @@ def list_chapters(request:Request, course_id):
     except Exception as exc:
         return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated, IsAdminUser])
+def get_chapter(request:Request, chapter_id):
+    chapter = get_object_or_404(CourseChapter, pk=chapter_id)
+    try:
+        chapter_serializer = CourseChapterSerializer(chapter)
+        return Response(chapter_serializer.data, status=status.HTTP_200_OK)
+    except Exception as exc:
+        return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
