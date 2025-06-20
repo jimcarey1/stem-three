@@ -86,7 +86,7 @@ def list_chapters(request:Request, course_id):
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated, IsAdminUser])
-def get_chapter(request:Request, chapter_id):
+def get_chapter(request:Request, course_id, chapter_id):
     chapter = get_object_or_404(CourseChapter, pk=chapter_id)
     try:
         chapter_serializer = CourseChapterSerializer(chapter)

@@ -35,7 +35,7 @@ function App() {
           </StaffRoutes>
         }
         />
-        <Route path='/:courseId/chapters/:chapterId' element={
+        <Route path=':courseId/chapters/:chapterId' element={
           <StaffRoutes>
             <CourseChapter />
           </StaffRoutes>

@@ -89,15 +89,13 @@ export const getCourseChapter = async(courseId, chapterId) => {
             }
         })
         const responseData = await response.json()
+        console.log(responseData)
         if(response.ok){
-            console.log(responseData)
             return responseData
         }else{
-            console.log(responseData)
             return null
         }
     }catch(error){
-        console.log(error)
         return null
     }
 }

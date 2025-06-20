@@ -1,11 +1,15 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { useParams } from "react-router-dom";
 
 import { getCourseChapter } from "../../services/courses";
+import {VideoUpload} from '../VideoUpload';
 
 
-export const CourseChapter = ({courseId, chapterId}) => {
+export const CourseChapter = () => {
     const [chapter, setChapter] = useState(null);
     const [loading, setLoading] = useState(false);
+
+    const {courseId, chapterId}  = useParams();
 
     useEffect(()=>{
         const fetchChapter = async () =>{
@@ -13,7 +17,6 @@ export const CourseChapter = ({courseId, chapterId}) => {
             const responseData = await getCourseChapter(courseId, chapterId)
             if(responseData){
                 setChapter(responseData)
-                console.log(chapter)
             }
             setLoading(false);
         }
@@ -21,10 +24,11 @@ export const CourseChapter = ({courseId, chapterId}) => {
     }, [courseId, chapterId])
 
     return(
-        <>
-        {loading & <h1>Loading...</h1>}
-        <p>{chapter.title}</p>
-        <p>{chapter.description}</p>
-        </>
+        <div>
+            <h2 className="text-2xl font-semibold">Chapter Details</h2>
+            <p className="font-semibold">{chapter?.title}</p>
+            <p>{chapter?.description}</p>
+            <VideoUpload />
+        </div>
     )
 }

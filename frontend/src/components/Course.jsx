@@ -1,4 +1,4 @@
-import { useLocation } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 import { useState } from "react";
 
 import {createCourseChapter} from '../services/courses'
@@ -43,6 +43,7 @@ export const Course = () =>{
 }
 
 export const AddCourseChapter = ({courseId, chapter, setChapter, setButtonStatus}) => {
+    const navigate = useNavigate();
 
     const handleChange = ({ currentTarget: input }) => {
         let newData = { ...chapter };
@@ -58,6 +59,12 @@ export const AddCourseChapter = ({courseId, chapter, setChapter, setButtonStatus
         const courseChapter = await createCourseChapter(formData, courseId)
         setChapter({title:'', description:''})
         setButtonStatus((prevState)=>!prevState)
+        if(courseChapter){
+            navigate({
+                pathname:`/courses/${courseId}/chapters/${courseChapter.id}`,
+                state: {courseId: courseId, chapterId: courseChapter.id}
+            })
+        }
     }
 
     return(

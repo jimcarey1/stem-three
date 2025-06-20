@@ -1,24 +1,24 @@
 import axios from 'axios';
-import React, { useState, useRef } from 'react';
+import { useState, useRef } from 'react';
 
-const VideoUpload = ()=> {
+export const VideoUpload = ()=> {
   const fileInputRef = useRef(null);
-  const [video, setVideo] = useState(null);
+  // const [video, setVideo] = useState(null);
   const [uploading, setUploading] = useState(false);
 
-  const handleFileChange = (e) => {
-    setVideo(e.target.files[0]);
-  };
+  // const handleFileChange = (e) => {
+  //   setVideo(e.target.files[0]);
+  // };
 
   const uploadVideo = async () => {
     if (!fileInputRef.current || !fileInputRef.current.files[0]) return;
-    video = fileInputRef.current.files[0];
+    const video = fileInputRef.current.files[0];
 
     try {
       setUploading(true);
 
       // 1. Get presigned URL from Django
-      const response = await axios.post('http://localhost:8000/generate-presigned-url/', {
+      const response = await axios.post('http://localhost:8000/courses/generate-presigned-url/', {
         file_name: video.name,
         file_type: video.type,
       });
@@ -54,12 +54,11 @@ const VideoUpload = ()=> {
 
   return (
     <div>
-      <input type="file" accept="video/*" onChange={handleFileChange} ref={fileInputRef}/>
+      {/* <input type="file" accept="video/*" onChange={handleFileChange} ref={fileInputRef}/> */}
+      <input type="file" accept="video/*" ref={fileInputRef}/>
       <button onClick={uploadVideo} disabled={uploading}>
         {uploading ? 'Uploading...' : 'Upload Video'}
       </button>
     </div>
   );
 }
-
-export default VideoUpload;
